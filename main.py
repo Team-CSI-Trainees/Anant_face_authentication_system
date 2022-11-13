@@ -15,14 +15,20 @@ anant_face_encoding = face_recognition.face_encodings(anant_image)[0]
 aditya_image = face_recognition.load_image_file(r"Face Authentication system\Photos\aditya.jpg")
 aditya_face_encoding = face_recognition.face_encodings(aditya_image)[0]
 
+# Load a third sample picture and learn how to recognize it.
+sid_image = face_recognition.load_image_file("Face Authentication system\Photos\siddhant.jpeg")
+sid_face_encoding = face_recognition.face_encodings(sid_image)[0]
+
 # Create arrays of known face encodings and their names
 known_face_encodings = [
     anant_face_encoding,
-    aditya_face_encoding
+    aditya_face_encoding,
+    sid_face_encoding
 ]
 known_face_names = [
     "Anant Tyagi",
-    "Aditya Saxena"
+    "Aditya Saxena",
+    "Siddhant "
 ]
 
 # Initialize some variables
