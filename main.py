@@ -8,27 +8,33 @@ import numpy as np
 video_capture = cv2.VideoCapture(0)
 
 # Load a sample picture and learn how to recognize it.
-anant_image = face_recognition.load_image_file(r"Face Authentication system\Photos\anant.jpg")
+anant_image = face_recognition.load_image_file(r"Face_Authentication_system\Photos\anant.jpg")
 anant_face_encoding = face_recognition.face_encodings(anant_image)[0]
 
 # Load a second sample picture and learn how to recognize it.
-aditya_image = face_recognition.load_image_file(r"Face Authentication system\Photos\aditya.jpg")
+aditya_image = face_recognition.load_image_file(rb"Face_Authentication_system\Photos\aditya.jpg")
 aditya_face_encoding = face_recognition.face_encodings(aditya_image)[0]
 
 # Load a third sample picture and learn how to recognize it.
-sid_image = face_recognition.load_image_file("Face Authentication system\Photos\siddhant.jpeg")
+sid_image = face_recognition.load_image_file("Face_Authentication_system\Photos\siddhant.jpeg")
 sid_face_encoding = face_recognition.face_encodings(sid_image)[0]
+
+# Load a sample picture and learn how to recognize it.
+aarke_image = face_recognition.load_image_file("Face_Authentication_system\Photos\Aarke.jpeg")
+aarke_face_encoding = face_recognition.face_encodings(aarke_image)[0]
 
 # Create arrays of known face encodings and their names
 known_face_encodings = [
-    anant_face_encoding,
+   anant_face_encoding,
     aditya_face_encoding,
-    sid_face_encoding
+    sid_face_encoding,
+    aarke_face_encoding
 ]
 known_face_names = [
-    "Anant Tyagi",
+   "Anant Tyagi",
     "Aditya Saxena",
-    "Siddhant "
+    "Siddhant ",
+    "Aarke Tripathi"
 ]
 
 # Initialize some variables
