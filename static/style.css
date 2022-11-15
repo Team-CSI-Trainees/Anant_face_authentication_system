@@ -1,0 +1,4 @@
+.col-lg-8{
+    display: grid;
+    grid-template-columns:min-content min-content auto ;
+}
