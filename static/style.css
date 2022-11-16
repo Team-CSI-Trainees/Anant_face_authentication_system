@@ -1,4 +1,12 @@
 .col-lg-8{
     display: grid;
-    grid-template-columns:min-content min-content auto ;
+    grid-template-columns:auto auto ;
+    font-size: 28px;
+    padding: 50px;
 }
+
+.button{
+    height: 40px;
+    width: 100px
+}
+

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response,request,redirect
 import cv2
 import face_recognition
 import numpy as np
@@ -38,7 +38,7 @@ face_locations = []
 face_encodings = []
 face_names = []
 process_this_frame = True
-
+final_name="a"
 def gen_frames():  
     while True:
         success, frame = camera.read()  # read the camera frame
@@ -67,7 +67,11 @@ def gen_frames():
                     name = known_face_names[best_match_index]
 
                 face_names.append(name)
-            
+                
+                
+                           
+                    
+
 
             # Display the results
             for (top, right, bottom, left), name in zip(face_locations, face_names):
@@ -85,6 +89,7 @@ def gen_frames():
                 font = cv2.FONT_HERSHEY_DUPLEX
                 cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
                 print(name)
+                final_name=name
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
@@ -101,6 +106,15 @@ def resay():
 def video_feed():
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
+@app.route('/authenticationpage/final')
+def final():
+    return render_template('page3.html')
+
+@app.route('/authenticationpage/reauthenticate')
+def reauthenticate():
+  return render_template('page4.html')    
+
+    
 
 if __name__=='__main__':
     app.run(debug=True)
