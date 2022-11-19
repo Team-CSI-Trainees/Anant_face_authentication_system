@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response,request,redirect
+from flask import Flask, render_template, Response,request,redirect,url_for
 import cv2
 import face_recognition
 import numpy as np
@@ -38,8 +38,10 @@ face_locations = []
 face_encodings = []
 face_names = []
 process_this_frame = True
-final_name="a"
+
 def gen_frames():  
+    global name
+    name = "Unknown"
     while True:
         success, frame = camera.read()  # read the camera frame
         if not success:
@@ -59,7 +61,7 @@ def gen_frames():
             for face_encoding in face_encodings:
                 # See if the face is a match for the known face(s)
                 matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
-                name = "Unknown"
+                
                 # Or instead, use the known face with the smallest distance to the new face
                 face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
                 best_match_index = np.argmin(face_distances)
@@ -68,12 +70,8 @@ def gen_frames():
 
                 face_names.append(name)
                 
-                
                            
-                    
-
-
-            # Display the results
+        # Display the results
             for (top, right, bottom, left), name in zip(face_locations, face_names):
                 # Scale back up face locations since the frame we detected in was scaled to 1/4 size
                 top *= 4
@@ -88,12 +86,23 @@ def gen_frames():
                 cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
                 font = cv2.FONT_HERSHEY_DUPLEX
                 cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
-                print(name)
+                #print(name)
                 final_name=name
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
+            
+
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+            if name=="Unknown" :
+                continue
+            else:
+                break       
+
+                      
+@app.route('/authenticationpage/final')
+def final():
+     return  render_template('page3.html',name=name)                
 
 @app.route('/')
 def index():
@@ -106,9 +115,8 @@ def resay():
 def video_feed():
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-@app.route('/authenticationpage/final')
-def final():
-    return render_template('page3.html')
+
+
 
 @app.route('/authenticationpage/reauthenticate')
 def reauthenticate():
